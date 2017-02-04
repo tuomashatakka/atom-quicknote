@@ -2,12 +2,13 @@
   "name": "quicknote",
   "main": "./src/index.js",
   "version": "0.0.0",
-  "description": "A handy persistent state note/todo status-bar addon!",
-  "keywords": [],
+  "author": "tuomashatakka",
+  "description": "To add, write an entry. To remove. click on an entry. No catches. Plain functionality.",
+  "keywords": ["todo", "notes", "tasks", "list", "upkeep", "remember", "fixme", "task manager", "simple", "easy", "accessible"],
   "activationCommands": {
     "atom-workspace": "quicknote:toggle-status-bar-button"
   },
-  "repository": "https://github.com/atom/asd",
+  "repository": "https://github.com/tuomashatakka/atom-quicknote",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

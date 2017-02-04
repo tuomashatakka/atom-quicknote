@@ -50,15 +50,26 @@ note-overlay .list-group {
   flex:               1 0 100%;
   overflow-y:         auto;
   max-height:         80vh;
-  border-radius:      0.5em 0.5em 0 0;
+  border-radius:      @component-border-radius @component-border-radius 0 0;
 
   .list-item {
+    position:         relative;
     padding:          @component-padding/2 @component-padding;
     transition:       all .2s;
     cursor:           pointer }
 
   .list-item:hover {
-    color:            @text-color-subtle }
+    background:       @background-color-error;
+    color:            @text-color-error }// @text-color-subtle }
+
+  .list-item:hover::before {
+    content:          "\f4c5"; // Trash can
+    font-family:      ionicons;
+    font-size:        @button-height;
+    position:         absolute;
+    right:            @component-padding * 2;
+    top:              50%;
+    transform:        translateY(-50%) }
 
   main {
     white-space:      normal;

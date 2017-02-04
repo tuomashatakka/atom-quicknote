@@ -18,6 +18,7 @@ export default {
     this.subscriptions.add(atom.commands.add('atom-workspace', {
       'quicknote:toggle-status-bar-button': () => this.toggle()
     }));
+    atom.commands.dispatch('atom-workspace', 'quicknote:toggle-status-bar-button')
   },
 
   consumeStatusBar(statusBar) {

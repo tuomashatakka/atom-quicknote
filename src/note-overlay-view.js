@@ -128,7 +128,7 @@ class OverlayComponent extends Component {
 
           <div className='qn-icon'>
             <svg viewBox="0 0 128 128"><use xlinkHref={iconPath + '#note-icon'} /></svg></div>
-          <output className='qn-counter'>
+          <output className='qn-counter badge'>
             {count}</output>
           <span className='qn-toggle-text'>
               Notes</span>
