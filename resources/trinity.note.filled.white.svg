@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+
+  id="note_white_filled"
+  x="0px" y="0px"
+  viewBox="0 0 320 320"
+  enable-background="new 0 0 320 320"
+  xml:space="preserve">
+
+   <path 
+   fill="none"
+   stroke="#FFFFFF"
+   stroke-width="8"
+   stroke-miterlimit="2"
+   d="M10.29,303.2V16.8H234.2l75.51,130.18V303.2H10.29z
+	 M205.56,88.4l104.15,58.58L234.2,16.8L205.56,88.4z"/>
+</svg>

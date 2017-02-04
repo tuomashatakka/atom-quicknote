@@ -5,41 +5,121 @@
 @import "ui-variables";
 
 .status-bar {
-  overflow: initial !important;
-}
+overflow: initial !important;
+@bg: screen(@inset-panel-background-color, #333337);
+
+note-overlay > div {
+  display:            block;
+  height:             inherit;
+  height:             100%;
+  vertical-align:     middle;
+  box-sizing:         border-box;
+  padding:            0;
+
+  &.open::before {
+    content:          "";
+    z-index:          300;
+    display:          block;
+    position:         absolute;
+    bottom:           100%;
+    border-width:     @disclosure-arrow-size * 1.2 @disclosure-arrow-size * 1.2 0;
+    border-style:     solid;
+    border-color:     @bg transparent transparent;
+    margin:           0 0 @disclosure-arrow-size @component-padding * 2.5 }}
 
 note-overlay article {
-  position: absolute;
-  display: flex;
-  flex-flow: row wrap;
-  bottom: 100%;
-  padding: 0;
-  min-width: 24em;
-  font-size: 1rem;
-  background-color: lighten(@inset-panel-background-color, 3%);
-  color: @text-color-highlight;
-  border-radius: @component-border-radius;
-  overflow: hidden;
-  box-shadow: 0 2px 1em fade(black, 15%);
-}
+  transition:         all .2s;
+  position:           absolute;
+  flex-flow:          row wrap;
+  display:            flex;
+  overflow-y:         auto;
+  overflow:           hidden;
+  bottom:             100%;
+  min-width:          48rem;
+  max-width:          72vw;
+  font-size:          1rem;
+  padding:            0 0 @component-padding / 2;
+  margin:             0 0 2 * @disclosure-arrow-size;
+  color:              @text-color-highlight;
+  box-shadow:         0 2px 2em fade(black, 22%);
+  border-radius:      @component-border-radius;
+  background-color:   @bg }
+
 
 note-overlay .list-group {
-  flex: 1 0 100%;
+  flex:               1 0 100%;
+  overflow-y:         auto;
+  max-height:         80vh;
+  border-radius:      0.5em 0.5em 0 0;
 
   .list-item {
-    padding: @component-padding/2 @component-padding;
-    transition: all .2s;
-    cursor: pointer;
-  }
-  .list-item:hover {
-    color: @text-color-subtle;
-  }
+    padding:          @component-padding/2 @component-padding;
+    transition:       all .2s;
+    cursor:           pointer }
 
-}
+  .list-item:hover {
+    color:            @text-color-subtle }
+
+  main {
+    white-space:      normal;
+    line-height:      1.8;
+    letter-spacing:  -0.02em }}
+
+
 
 note-overlay atom-text-editor.editor {
-  flex: 1 0 auto;
-  margin: @component-padding*1.2 @component-padding !important }
+  flex:   1 0 auto;
+  margin: @component-padding*1.2
+          @component-padding !important }
 
 note-overlay article > button {
-  margin: @component-padding*1.2 @component-padding !important }
+  margin: @component-padding*1.2
+          @component-padding !important }
+
+
+
+  // Toggle btn
+.qn-icon {
+  @size:              20px;
+  width:              @size;
+  height:             100%;
+  margin-right:       @size * 0.15;
+  position:           relative }
+
+.qn-icon svg {
+  display:            block;
+  fill:               @text-color;
+  stroke-width:       2px;
+  stroke-miterlimit:  1;
+  stroke:             @text-color;
+  height:             100%;
+  width:              100% }
+}
+
+.qn-label {
+  display:        flex;
+  align-items:    center;
+  cursor:         pointer;
+  position:       absolute;
+  box-sizing:     border-box;
+  height:         100%;
+  line-height:    1;
+  padding:        0 @component-padding / 2 * 3;
+  margin:         0;
+  background:     transparent;
+  color:          @text-color-subtle;
+  border-radius:  @component-border-radius;
+  justify-content:center;
+  svg { fill:     @text-color-subtle }
+
+  &.selected {
+    background:   @background-color-selected;
+    color:        @text-color-selected;
+   .qn-icon
+    svg { fill:   @text-color-highlight }}
+  &:hover {
+    background:   @background-color-highlight;
+    color:        @text-color-highlight;
+   .qn-icon
+    svg { fill:   @text-color-highlight }}
+}

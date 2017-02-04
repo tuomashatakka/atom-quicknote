@@ -38,6 +38,7 @@ class OverlayComponent extends Component {
     this.state = {
       open: true,
       value: '',
+      count: 0,
       items: props.items || []}
     this.editor       = null
     this.updateHost   = this.props.manager
@@ -49,18 +50,34 @@ class OverlayComponent extends Component {
   }
 
   updateState (state) {
+    let count = this.state.items.length || 0
+    state.count = count
+
     this.setState(state)
     this.updateHost(state)
   }
 
   onToggle () {
-    this.updateState({ open: !this.state.open })
+    let { open } = this.state
+    console.log("togglin'", this.state.open, open, this.state.open===open)
+    this.updateState({ open: !open })
+    console.log("togglin' handlin' endin'", open)
   }
 
   componentDidMount () {
     this.editor
         .getModel()
         .onDidStopChanging(this.onChange)
+    this.editor.addEventListener('keydown', e => {
+      let { ctrlKey, shiftKey, altKey, metaKey, keyCode } = e
+      if (keyCode !== 13 ||
+          ctrlKey ||
+          shiftKey ||
+          altKey ||
+          metaKey)
+          return false
+      return this.onSubmit(e)
+    })
   }
 
   onChange (event) {
@@ -92,28 +109,45 @@ class OverlayComponent extends Component {
   }
 
   render() {
-    let { open, items } = this.state
-    let item = o => <Note key={o.timestamp} remove={this.onDelete} {...o} />
-    return (
-      <div>
 
-        <span
-          className="notetoggle label"
-          onClick={this.onToggle}>
-          Notes
-        </span>
+    let { open, items, count } = this.state
+    let item = o => <Note key={o.timestamp} remove={this.onDelete} {...o} />
+
+    // TODO: Change to ES6 import syntax
+    const resolve = require('path').resolve
+    const packagePath = atom.packages.getLoadedPackage('quicknote').path
+    const path = 'resources/trinitynote-vector.svg'
+    const iconPath = resolve(`${packagePath}/${path}`)
+
+    return (
+      <div className={open ? 'open' : 'closed'}>
+
+        <div
+          className={"qn-label" + (open ? ' selected active' : ' closed')}
+          onClick={() => this.onToggle()}>
+
+          <div className='qn-icon'>
+            <svg viewBox="0 0 128 128"><use xlinkHref={iconPath + '#note-icon'} /></svg></div>
+          <output className='qn-counter'>
+            {count}</output>
+          <span className='qn-toggle-text'>
+              Notes</span>
+
+      </div>
 
         <article className={open ? 'visible' : 'hidden'}>
 
           <ul className='list-group'>
-            {items.map(item)}
-          </ul>
+             {items.map(item)}</ul>
 
-          <atom-text-editor mini ref={editor => this.editor = this.editor || editor} />
+          <atom-text-editor
+            auto-height={true}
+            autoHeight={true}
+            mini ref={editor =>
+           this.editor = this.editor || editor} />
 
-        <button className='btn' onClick={this.onSubmit}>
-          <span className='icon icon-plus' />
-        </button>
+          <button className='btn' onClick={this.onSubmit}>
+            <span className='icon icon-plus' /></button>
 
         </article>
       </div>
@@ -125,7 +159,25 @@ class OverlayComponent extends Component {
 export default class NoteOverlay {
 
   constructor (parent, items=[]) {
-    this.element = document.createElement('note-overlay')
+    let iter = document.querySelectorAll('note-overlay').entries()
+    let { done, value } = iter.next()
+    if (done)
+      this.element = document.createElement('note-overlay')
+
+    while (!done) {
+      let [key, el] = value
+
+      console.log(key, el, value, done)
+
+      if (!this.element)
+        this.element = el
+      else
+        el.innerHTML = ''
+      let advance = iter.next()
+      done = advance.done
+      value = advance.value
+    }
+
     render(<OverlayComponent manager={parent.update} items={items} />, this.element)
   }
 }

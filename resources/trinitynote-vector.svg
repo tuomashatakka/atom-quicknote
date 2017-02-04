@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 128 128"
+     id="note-icon">
+<defs>
+<style>
+.outlines {
+  fill:   #fff;
+  stroke: #e6e6e6;
+  stroke-linecap:    round;
+  stroke-miterlimit: 2;
+}
+</style>
+</defs>
+<title>trinitynote-vector</title>
+<path class="outlines" d="M20,20H83l27,45v45H20Zm63,0L74,47l36,18Z"/>
+</svg>
