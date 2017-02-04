@@ -1,10 +1,22 @@
 {
   "name": "quicknote",
   "main": "./src/index.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "tuomashatakka",
   "description": "To add, write an entry. To remove. click on an entry. No catches. Plain functionality.",
-  "keywords": ["todo", "notes", "tasks", "list", "upkeep", "remember", "fixme", "task manager", "simple", "easy", "accessible"],
+  "keywords": [
+    "todo",
+    "notes",
+    "tasks",
+    "list",
+    "upkeep",
+    "remember",
+    "fixme",
+    "task manager",
+    "simple",
+    "easy",
+    "accessible"
+  ],
   "repository": "https://github.com/tuomashatakka/atom-quicknote",
   "license": "MIT",
   "engines": {
