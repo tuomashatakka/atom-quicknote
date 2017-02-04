@@ -1,0 +1,45 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+.status-bar {
+  overflow: initial !important;
+}
+
+note-overlay article {
+  position: absolute;
+  display: flex;
+  flex-flow: row wrap;
+  bottom: 100%;
+  padding: 0;
+  min-width: 24em;
+  font-size: 1rem;
+  background-color: lighten(@inset-panel-background-color, 3%);
+  color: @text-color-highlight;
+  border-radius: @component-border-radius;
+  overflow: hidden;
+  box-shadow: 0 2px 1em fade(black, 15%);
+}
+
+note-overlay .list-group {
+  flex: 1 0 100%;
+
+  .list-item {
+    padding: @component-padding/2 @component-padding;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .list-item:hover {
+    color: @text-color-subtle;
+  }
+
+}
+
+note-overlay atom-text-editor.editor {
+  flex: 1 0 auto;
+  margin: @component-padding*1.2 @component-padding !important }
+
+note-overlay article > button {
+  margin: @component-padding*1.2 @component-padding !important }

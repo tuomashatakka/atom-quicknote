@@ -1,0 +1,26 @@
+{
+  "name": "quicknote",
+  "main": "./src/index.js",
+  "version": "0.0.0",
+  "description": "A handy persistent state note/todo status-bar addon!",
+  "keywords": [],
+  "activationCommands": {
+    "atom-workspace": "quicknote:toggle-status-bar-button"
+  },
+  "repository": "https://github.com/atom/asd",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  }
+}

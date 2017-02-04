@@ -1,0 +1,5 @@
+{
+  "atom-workspace": {
+    "cmd-r": "quicknote:toggle-status-bar-button"
+  }
+}
