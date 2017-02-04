@@ -1,45 +1,25 @@
-'use babel';
-
-import NoteView from './note-view';
-import { CompositeDisposable } from 'atom';
-
-export default {
-
+'use babel'
+import NoteView from './note-view'
+import { CompositeDisposable } from 'atom'
+const annimalNottes = {
   view: null,
   subscriptions: null,
   state: {},
-
   activate(state) {
-
+    if (!this.view) {
     this.state = state
-    console.log("Loaded quicnote with state", state);
-    this.view = new NoteView(this.state.viewState)
-    this.subscriptions = new CompositeDisposable();
-    this.subscriptions.add(atom.commands.add('atom-workspace', {
-      'quicknote:toggle-status-bar-button': () => this.toggle()
-    }));
-    atom.commands.dispatch('atom-workspace', 'quicknote:toggle-status-bar-button')
-  },
-
-  consumeStatusBar(statusBar) {
-    this.view.attach(statusBar)
-  },
-
+    let { viewState } = state || {}
+    this.view = new NoteView(viewState || [])
+    this.subscriptions = new CompositeDisposable()
+    this.subscriptions.add(atom.commands.add('atom-workspace', {'quicknote:toggle-status-bar-button': () => this.toggle()}))}},
   deactivate() {
-    this.modalPanel.destroy();
-    this.subscriptions.dispose();
-    this.asdView.destroy();
-  },
-
+    this.subscriptions.dispose()
+    this.view.destroy()},
   serialize() {
-    console.log("Serializing view ->", this.view.serialize());
-    return {
-      viewState: this.view.state
-    }
-  },
-
-  toggle() {
-    return
-  }
-
-}
+    let { state } = this.view
+    let viewState = {...state}
+    return { viewState }},
+  toggle() {}}
+annimalNottes.activate()
+export default {...annimalNottes, consumeStatusBar(statusBar) {
+    annimalNottes.view.attach(statusBar)},}

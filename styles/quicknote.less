@@ -8,6 +8,10 @@
 overflow: initial !important;
 @bg: screen(@inset-panel-background-color, #333337);
 
+note-overlay {
+  display: inline-flex;
+  height: 100%;
+}
 note-overlay > div {
   display:            block;
   height:             inherit;
@@ -65,7 +69,7 @@ note-overlay .list-group {
   .list-item:hover::before {
     content:          "\f4c5"; // Trash can
     font-family:      ionicons;
-    font-size:        @input-height;
+    font-size:        3em;
     position:         absolute;
     right:            @component-padding * 2;
     top:              50%;

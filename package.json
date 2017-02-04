@@ -5,9 +5,6 @@
   "author": "tuomashatakka",
   "description": "To add, write an entry. To remove. click on an entry. No catches. Plain functionality.",
   "keywords": ["todo", "notes", "tasks", "list", "upkeep", "remember", "fixme", "task manager", "simple", "easy", "accessible"],
-  "activationCommands": {
-    "atom-workspace": "quicknote:toggle-status-bar-button"
-  },
   "repository": "https://github.com/tuomashatakka/atom-quicknote",
   "license": "MIT",
   "engines": {

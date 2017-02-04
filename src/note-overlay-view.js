@@ -59,7 +59,6 @@ class OverlayComponent extends Component {
 
   onToggle () {
     let { open } = this.state
-    console.log("togglin'", this.state.open, open, this.state.open===open)
     this.updateState({ open: !open })
     console.log("togglin' handlin' endin'", open)
   }
@@ -103,7 +102,6 @@ class OverlayComponent extends Component {
 
   onDelete (hash) {
     let { items } = this.state
-    console.log([...items])
     items = items.filter(item => item.timestamp !== hash)
     this.updateState({ items })
   }
@@ -166,8 +164,6 @@ export default class NoteOverlay {
 
     while (!done) {
       let [key, el] = value
-
-      console.log(key, el, value, done)
 
       if (!this.element)
         this.element = el
