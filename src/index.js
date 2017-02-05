@@ -6,12 +6,15 @@ const annimalNottes = {
   subscriptions: null,
   state: {},
   activate(state) {
-    if (!this.view) {
+    if (!this.view)
+      this.make(state)
     this.state = state
+    this.subscriptions = new CompositeDisposable()
+    this.subscriptions.add(atom.commands.add('atom-workspace', {'quicknote:toggle-status-bar-button': () => this.toggle()}))},
+  make(state) {
     let { viewState } = state || {}
     this.view = new NoteView(viewState || [])
-    this.subscriptions = new CompositeDisposable()
-    this.subscriptions.add(atom.commands.add('atom-workspace', {'quicknote:toggle-status-bar-button': () => this.toggle()}))}},
+  },
   deactivate() {
     this.subscriptions.dispose()
     this.view.destroy()},
@@ -20,6 +23,7 @@ const annimalNottes = {
     let viewState = {...state}
     return { viewState }},
   toggle() {}}
-annimalNottes.activate()
 export default {...annimalNottes, consumeStatusBar(statusBar) {
+  if (!annimalNottes.view)
+    annimalNottes.make({})
     annimalNottes.view.attach(statusBar)},}

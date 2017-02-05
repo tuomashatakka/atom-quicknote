@@ -113,9 +113,12 @@ class OverlayComponent extends Component {
 
     // TODO: Change to ES6 import syntax
     const resolve = require('path').resolve
-    const packagePath = atom.packages.getLoadedPackage('quicknote').path
-    const path = 'resources/trinitynote-vector.svg'
-    const iconPath = resolve(`${packagePath}/${path}`)
+    const package = atom.packages.getLoadedPackage('quicknote')
+    if (!package)
+      return null
+    const {path} = package
+    const localPath = 'resources/trinitynote-vector.svg'
+    const iconPath = (path) ? resolve(`${path}/${localPath}`) : ''
 
     return (
       <div className={open ? 'open' : 'closed'}>
