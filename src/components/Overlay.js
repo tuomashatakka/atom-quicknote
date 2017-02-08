@@ -10,7 +10,7 @@ export default class OverlayComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: true,
+      open: props.open || false,
       value: '',
       count: 0,
       items: props.items || []}
@@ -32,10 +32,11 @@ export default class OverlayComponent extends Component {
     this.updateHost(this.state)
   }
 
-  onToggle () {
-    let { open } = this.state
+  onToggle (toggle) {
+    let { open } = this.state || toggle
     this.updateState({ open: !open })
     console.log("togglin' handlin' endin'", open)
+    return this.state.open
   }
 
   componentDidMount () {

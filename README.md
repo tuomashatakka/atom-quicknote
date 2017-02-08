@@ -1,8 +1,26 @@
 # Quicknote
 
-__The name does not lie. This package is for real__
+__This package is a quickie__
 
-###### THIS BE THE PACKAGE OF YOUR DREAMS
+# Contributing (most important topics first)
+
+You really want to contribute to
+
+durumroll pls
+
+***
+
+this:
+
+![quickie into the source](./resources/Screen Shot 2017-02-06 at 06.32.14.png) ?
+
+And yes, you saw right.
+That is a screenshot from this package's source.
+
+überkewl innit thou
+
+
+# THIS BE THE PACKAGE OF YOUR DREAMS
 
  - Enhance your productivity and have your stress levels reduced by just downloading this package.
  - I'm not saying that downloading this package your stress or anything will get any easier.
@@ -21,7 +39,7 @@ So
 Bestset n handiest handy swift ultra-fast turbo task manager
 workflow enhancer etc.
 
-| Good. now DL ASAP | BEST PACKAGE      | EVERRRRRRRRRRRRRR |
+| table about package's feature hilites ............................ Good. now DL ASAP | BEST PACKAGE      | EVERRRRRRRRRRRRRR |
 |-------------------|-------------------|-------------------|
 | dl dl dl dl dl dl | dl dl dl dl dl dl | dl dl dl dl dl dl |
 | dl dl dl dl dl dl | dl dl dl dl dl dl | dl dl dl dl dl dl |

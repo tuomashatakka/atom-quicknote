@@ -9,7 +9,14 @@ export default class NoteOverlay {
 
   constructor (parent, items=[]) {
     let iter = document.querySelectorAll('note-overlay').entries()
+    let state
+    try {
+      state = JSON.parse(localStorage.getItem('quicknotes') || "{}")}
+    catch(e) {
+      state = {}}
     let { done, value } = iter.next()
+    this.reference = null
+
     if (done)
       this.element = document.createElement('note-overlay')
 
@@ -24,7 +31,14 @@ export default class NoteOverlay {
       done = advance.done
       value = advance.value
     }
+    console.log("INITIAL STATE:", state)
 
-    render(<OverlayComponent manager={parent.update} items={items} />, this.element)
+    render(
+      <OverlayComponent
+        ref={ref => this.reference = this.reference || ref}
+        manager={parent.update}
+        open={state.open}
+        items={state.items}
+        />, this.element)
   }
 }
