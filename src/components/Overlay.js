@@ -101,10 +101,10 @@ export default class OverlayComponent extends Component {
 
     // TODO: Change to ES6 import syntax
     const resolve = require('path').resolve
-    const package = atom.packages.getLoadedPackage('quicknote')
-    if (!package)
+    const pack = atom.packages.getLoadedPackage('quicknote')
+    if (!pack)
       return null
-    const {path} = package
+    const {path} = pack
     const localPath = 'resources/trinitynote-vector.svg'
     const iconPath = (path) ? resolve(`${path}/${localPath}`) : ''
 
