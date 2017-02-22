@@ -17,15 +17,15 @@ export default class Note extends Component {
 
   render () {
     let { toggled, archived } = this.state
+    let className = 'list-item'
     if (archived)
-      return null
+      className = 'list-item archived'
       //onClick={e => remove(timestamp)}
     let { meta, value, timestamp, remove } = this.props
     let date = new Date(timestamp)
     return (
-      <li className='list-item'>
+      <li className={className}>
         <span className='icon icon-file-text' />
-        <time>{date.toLocaleString()}</time>
         <main>{value}</main>
         <NoteActionDisplay note={this} />
       </li>

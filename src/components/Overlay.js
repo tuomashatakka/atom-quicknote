@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import Note from './Note'
+import { resolve } from 'path'
 
 
 export default class OverlayComponent extends Component {
@@ -10,7 +11,7 @@ export default class OverlayComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: props.open || false,
+      open: true, //props.open || false,
       value: '',
       count: 0,
       items: props.items || []}
@@ -101,7 +102,6 @@ export default class OverlayComponent extends Component {
                       {...o} />
 
     // TODO: Change to ES6 import syntax
-    const resolve = require('path').resolve
     const package = atom.packages.getLoadedPackage('quicknote')
     if (!package)
       return null
@@ -112,29 +112,25 @@ export default class OverlayComponent extends Component {
     return (
       <div className={open ? 'open' : 'closed'}>
 
-        <div
-          className={"qn-label" + (open ? ' selected active' : ' closed')}
-          onClick={() => this.onToggle()}>
+        <div onClick={() => this.onToggle()}
+             className={"qn-label" + (open ? ' selected active' : ' closed')} >
 
           <div className='qn-icon'>
             <svg viewBox="0 0 128 128"><use xlinkHref={iconPath + '#note-icon'} /></svg></div>
-          <output className='qn-counter badge'>
-            {count}</output>
+
           <span className='qn-toggle-text'>
               Notes</span>
 
-      </div>
+          <output className='qn-counter badge'>
+            {count}</output>
 
+        </div>
         <article className={open ? 'visible' : 'hidden'}>
 
           <ul className='list-group'>
              {items.map(item)}</ul>
 
-          <atom-text-editor
-            auto-height={true}
-            autoHeight={true}
-            mini ref={editor =>
-           this.editor = this.editor || editor} />
+          <atom-text-editor mini ref={editor => this.editor = this.editor || editor} />
 
           <button className='btn' onClick={this.onSubmit}>
             <span className='icon icon-plus' /></button>

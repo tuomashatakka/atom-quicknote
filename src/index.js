@@ -26,19 +26,15 @@ const superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes = {
   },
 
   format(state={}) {
-    let storageState
-    try {
-      storageState = JSON.parse(localStorage.getItem('quicknotes') || "{}")}
-    catch(e) {
-      storageState = {}}
-
+    let             storageState
+    try {           storageState = JSON.parse(localStorage.getItem('quicknotes') || "{}")}
+    catch(e) {      storageState = {}}
     let viewState = storageState.viewState || this.state.viewState || state.viewState
-    if (!this.view)
-              view = new NoteView(viewState || [])
-    else      view = this.view
 
-    this.toggle = view.toggle()
-    this.view = view
+    if (!this.view) view = new NoteView(viewState || [])
+    else            view = this.view
+    this.toggle =   view.toggle()
+    this.view   =   view
   },
 
   restoreArchivedNotes () {
@@ -63,7 +59,6 @@ const superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes = {
       }
     })
     localStorage.setItem('quicknotes', state)
-    console.log(localStorage.getItem('quicknotes'));
     return state
   },
 
@@ -79,7 +74,6 @@ const superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes = {
 
     let { state } = this
     let { items } = state
-    console.log(state, items)
     if (!this.state)
       this.state = { items: [] }
     else

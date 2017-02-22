@@ -1,16 +1,15 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
-// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
-// for a full listing of what's available.
 @import "ui-variables";
 
 .status-bar {
+
 overflow: initial !important;
-@bg: screen(@inset-panel-background-color, #333337);
+@bg: darken(@tool-panel-background-color, 2%);
+@padding: 1rem;
 
 note-overlay {
-display: inline-flex;
-height: 100%;
+  display:            inline-flex;
+  height:             100%;
+  min-width:          10em;
 
 
 > div {
@@ -37,18 +36,27 @@ article {
   position:           absolute;
   flex-flow:          row wrap;
   display:            flex;
-  overflow-y:         auto;
   overflow:           hidden;
+  overflow-y:         auto;
   bottom:             100%;
   min-width:          48rem;
   max-width:          72vw; // Wir leben autos LOL
+  max-height:         50vh;
   font-size:          1em;
   padding:            0;
   margin:             0 0 2 * @disclosure-arrow-size;
-  color:              @text-color-highlight;
   box-shadow:         0 2px 2em fade(black, 22%);
+  color:              @text-color-highlight;
   border-radius:      @component-border-radius;
-  background-color:   @bg }
+  background-color:   @bg;
+  transform:          translate(-75%, 0);
+
+  &.hidden {
+    visibility:       visible;
+    max-height:       0;
+    overflow:         hidden;
+    display:          block !important;
+    }}
 
 
 .list-group {
@@ -59,41 +67,91 @@ article {
 
   .list-item {
     position:         relative;
-    padding:          @component-padding/2 @component-padding * 2;
+    font-size:        1.15em;
+    padding:          @component-padding * 2 @component-padding * 2 @component-padding/2;
     transition:       all .2s;
     cursor:           pointer }
 
   .list-item:hover {
-    background:       @background-color-error;
+    font-size:        1.15em;
+    background:       @background-color-highlight;
+    color:            @text-color-highlight }
+
+  .list-item.archived {
+    background:       transparent;
     color:            @text-color-subtle }
 
   .list-item:hover::before {
     font-family:      ionicons;
-    font-size:        3em;
     position:         absolute;
     right:            @component-padding / 2;
     top:              50%;
     transform:        translateY(-50%) }
 
   main {
+    display:          inline-block;
     white-space:      normal;
     line-height:      1.8;
-    letter-spacing:  -0.02em }}
+    letter-spacing:  -0.02em }
+
+  .note-actions {
+    margin:           @padding -2 * @padding 0;
+    display:          flex;
+    justify-content:  space-around;
+    align-items:      stretch;
+    border-bottom:    1px solid;
+    border-color:     @base-border-color !important;
+    color:            fade(@text-color-subtle, 50%);
+
+    > * {
+      .icon {
+        font-size: 1.25em;
+        padding-right: 0.5em !important }
+      display:      block;
+      text-align:   center;
+      flex:         1 1 auto;
+      color:        inherit;
+      line-height:  3.2em;
+      border-style: solid;
+      border-width: 1px 1px 0 0;
+      border-color: inherit !important;
+      margin:       0;
+      text-decoration: none;
+      &:hover {
+        color:      @text-color-subtle;
+        background: @base-border-color !important }
+      &:last-child { border-right-width: 0} }}}
 
 
 
 atom-text-editor.editor {
-  position: relative;
-  top: 1px;
-  flex:   1 0 auto;
-  margin: @component-padding / 4
-          @component-padding / 2
-          @component-padding / 4.5 !important }
+  * {
+    color: inherit;
+    background: transparent }
+
+  height:         auto;
+  max-height:     5.6rem;
+  font-weight:    100;
+  line-height:    2.6rem;
+  padding:        0.5rem 1rem;
+  font-family:    avenir next, helvetica neue, sofia pro;
+  letter-spacing: -0.05em;
+  font-size:      2em;
+  -webkit-text-stroke:    0.3px;
+  -webkit-font-smoothing: antialiased;
+  position:               relative;
+  top:    0;
+  flex:   1 1 auto;
+  margin: @padding
+          @padding
+          @padding * 1.1 !important }
 
 article > button {
-  margin: @component-padding / 4
-          @component-padding / 2
-          @component-padding / 4.5 !important }
+  flex:   0 1 auto;
+  margin: @padding
+          @padding
+          @padding * 1.1
+          0 !important }
 
 
 }
@@ -130,15 +188,21 @@ article > button {
   color:                @text-color-subtle;
   border-radius:        @component-border-radius;
   justify-content:      center;
-  svg { fill:           @text-color-subtle }
+  svg {
+    fill:               @text-color-subtle }
 
   &.selected {
     background:         @background-color-selected;
     color:              @text-color-selected;
-   .qn-icon svg { fill: @text-color-highlight }}
+   .qn-icon svg {
+     stroke:            transparent;
+     fill:              @text-color }}
+
   &:focus,
   &:hover {
     background:         @background-color-highlight;
     color:              @text-color-highlight;
-   .qn-icon svg { fill: @text-color-highlight }}
+   .qn-icon svg {
+     stroke:            transparent;
+     fill:              @text-color-subtle }}
 }

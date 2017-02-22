@@ -37,7 +37,7 @@ export default class OverlayView {
     let args = {
       item: this.element,
       priority: 5,}
-    this.toggler = statusBar.addLeftTile(args)
+    this.toggler = statusBar.addRightTile(args)
   }
 
   update (state) {

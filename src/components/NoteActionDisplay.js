@@ -19,29 +19,28 @@ export default class NoteActionDisplay extends Component {
     return null
     let { remove, timestamp, value, edit } = note.props
     let { archive } = note
+    let date = new Date(timestamp)
     return (
-      <nav
-        className={'note-actions'}>
+
+      <nav className={'note-actions toolbar'}>
+
+        <time>{date.toLocaleString()}</time>
+
+        <a onClick={e => archive()}>
+          <span className='icon ion ion-ios-checkmark' />
+          Done </a>
 
         <a onClick={e => edit(timestamp)}>
           <span className='icon icomoon icomoon-quill' />
-          Edit
-        </a>
+          Modify </a>
 
         <a onClick={e => atom.clipboard.write(value)}>
           <span className='icon ion ion-ios-copy-outline' />
-          Copy to clipbrd
-        </a>
-
-        <a onClick={e => archive()}>
-          <span className='icon ion ion-ios-filing-outline' />
-          Archive
-        </a>
+          Copy </a>
 
         <a onClick={e => remove(timestamp)}>
           <span className='icon ion ion-ios-trash-outline' />
-          Remove
-        </a>
+          Delete </a>
 
       </nav>
     )
