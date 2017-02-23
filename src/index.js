@@ -4,17 +4,15 @@ import NoteView from './note-view'
 import { CompositeDisposable } from 'atom'
 
 
-const superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes = {
+const pak = {
   subscriptions: null,
   view: null,
   state: {},
 
   activate(state) {
 
-    if (!this.view)
-      this.format(state)
-
     this.state = this.deserialize(state)
+    this.renderView()
     this.subscriptions = new CompositeDisposable()
     this.subscriptions.add(atom.commands.add(
     'atom-workspace', {
@@ -22,118 +20,68 @@ const superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes = {
       'quicknote:purge': () => this.purge(),
       'quicknote:restore-archived': () => this.restoreArchivedNotes(),
     }))
-
   },
 
-  format(state={}) {
-    let             storageState
-    try {           storageState = JSON.parse(localStorage.getItem('quicknotes') || "{}")}
-    catch(e) {      storageState = {}}
-    let viewState = storageState.viewState || this.state.viewState || state.viewState
+  renderView () {
+    let viewState = this.getSavedState('viewState')
+    let update = (data) => this.setViewState(data)
+    this.view = this.view || new NoteView(viewState, update)
+    this.toggle = this.view.toggle()
+    return this.view
+  },
 
-    if (!this.view) view = new NoteView(viewState || [])
-    else            view = this.view
-    this.toggle =   view.toggle()
-    this.view   =   view
+  getSavedState (key=null) {
+    let savedData
+    try { savedData = JSON.parse(localStorage.getItem( 'quicknotes' ) || "{}") }
+    catch (e) { savedData = {} }
+    return key ? savedData[key] : savedData
+  },
+
+  setViewState (contents) {
+    let viewState = this.state ? this.state.viewState : {}
+    this.state = { ...this.state, viewState: { ...viewState, ...contents }}
+    let dump = this.serialize()
+    localStorage.setItem('quicknotes', dump)
+    let result = localStorage.getItem('quicknotes')
   },
 
   restoreArchivedNotes () {
-    this.state.items = this.state.items.map(item => ({ ...item, archived: false }))
-    return this.state.items
+    let { viewState } = this.state
+    let items = []
+    if (viewState)
+      items = (viewState.items || []).map(item => ({ ...item, archived: false }))
+      this.state.viewState.items = items
+    return this.state.viewState.items
   },
 
   purge () {
-    localStorage.set('quicknotes', '')
-    this.state = { items: [] }
+    localStorage.setItem('quicknotes', '')
+    this.state = { }
   },
 
-  serialize() {
-    let viewState = this.view.getState()
-    // let items = viewState.items
-    let ls    = JSON.parse(localStorage.getItem('quicknotes')) || {}
-    let state = JSON.stringify({
-      ...ls,
-      viewState: {
-        ...(ls.viewState ? ls.viewState : {}),
-        ...(viewState ? viewState : {})
-      }
-    })
-    localStorage.setItem('quicknotes', state)
-    return state
+  serialize () {
+    return JSON.stringify(this.state)
   },
 
-  deactivate() {
-    let girlfriend = this.subscriptions
-    let pussy = this.view
-    pussy.destroy()/*er _ 69 */
-    girlfriend.dispose()
-    /* OMG let 'em feminists come */
+  deserialize (state) {
+    let savedData = this.getSavedState()
+    let providedData = (typeof state === 'string' ? JSON.parse(state) : state)
+    this.state = { ...providedData, ...savedData }
+    return this.state
   },
 
-  sserialize() {
-
-    let { state } = this
-    let { items } = state
-    if (!this.state)
-      this.state = { items: [] }
-    else
-      this.state = {
-
-
-
-      /* . . . . . . . . . . . . . . . . . . . . . . */
-      /* . . c e l e b r a t i o n 2 4 7 4 2 0 . . .*/
-      /* . . . . . . . . . . . . . . . . . . . . . */
-      /* ...,...,...,...,...,...,...,...,...,...,}*/
-      /*...,...*/...this.state,...items,/*...,...*/
-      /* ...,...,...,...,...,...,...,...,...,...*/}
-
-
-
-    // Lots Of Laughter -zone
-
-    /* go. */
-    let the_videotapes_to_the_blockbusters________________________STORE = JSON.stringify
-    return the_videotapes_to_the_blockbusters________________________STORE(
-            {...{     ...{
-    ...{ ...this.state }
-,...{}} ,...{}
-} ,...{}
- }
-      )
-    },
-
-
-
-
-
-  deserialize(state) {
-var     OOO
-let    o_o                                                        =
-      OOO                                                            = JSON.parse(localStorage.getItem(
-
-    'quicknotes'                                                                                              )),
-
-     ooo                                                             = (typeof state === 'string' ? JSON.parse(state):state), of_the_edward_culli = {
-     ...ooo,
-        ...OOO                                                                                                   }
-
-
-    return of_the_edward_culli
-
-
-
+  deactivate () {
+    let { subscriptions, view } = this
+    view.destroy()/*er _ 69 */
+    subscriptions.dispose()
   }
+
 }
 
 export default {
-
-  /* get ready for the final boom bang */
-
-  ...superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes, consumeStatusBar(statusBar) {
-    let shallowCopyOfThePrimaryViewClassThatIsInsertedOnPackageInitialLoadOwnedByThisSuperiorNoteTakingPackage = superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes.view
-    if (!shallowCopyOfThePrimaryViewClassThatIsInsertedOnPackageInitialLoadOwnedByThisSuperiorNoteTakingPackage)
-      superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes.format({})
-    superiorNoteTakingPackageAsKnownAsQuicknoteCommaOrAnnimalNottes.view.attach(statusBar)
-
-  /* </LOL zone ends here :()> */}}
+  ...pak,
+  consumeStatusBar(statusBar) {
+    let { view } = pak
+    if (!view) view = pak.renderView()
+    view.attach(statusBar)
+}}

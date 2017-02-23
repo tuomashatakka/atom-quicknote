@@ -18,6 +18,7 @@ export default class NoteActionDisplay extends Component {
     if (!note)
     return null
     let { remove, timestamp, value, edit } = note.props
+    let { priority, archived } = note.state
     let { archive } = note
     let date = new Date(timestamp)
     return (
@@ -26,9 +27,9 @@ export default class NoteActionDisplay extends Component {
 
         <time>{date.toLocaleString()}</time>
 
-        <a onClick={e => archive()}>
-          <span className='icon ion ion-ios-checkmark' />
-          Done </a>
+        <a onClick={e => archive(archived)}>
+          <span className={'icon ion ion-ios-' + (archived ? `checkmark-outline` : `checkmark`)} />
+          {archived?'Mark und':'D'}one </a>
 
         <a onClick={e => edit(timestamp)}>
           <span className='icon icomoon icomoon-quill' />

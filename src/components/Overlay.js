@@ -5,6 +5,7 @@ import { render } from 'react-dom'
 import Note from './Note'
 import { resolve } from 'path'
 
+const pack = atom.packages.getLoadedPackage('quicknote')
 
 export default class OverlayComponent extends Component {
 
@@ -18,6 +19,7 @@ export default class OverlayComponent extends Component {
     this.editor       = null
     this.updateHost   = s => this.props.manager(s)
     this.onToggle     = this.onToggle.bind(this)
+    this.onMeta       = this.onMeta.bind(this)
     this.onChange     = this.onChange.bind(this)
     this.onSubmit     = this.onSubmit.bind(this)
     this.onDelete     = this.onDelete.bind(this)
@@ -26,8 +28,10 @@ export default class OverlayComponent extends Component {
   }
 
   updateState (state) {
-    let count = this.state.items.length || 0
-    state.count = count
+    state.count = state.items ?
+      state.items.length :
+      this.state.items ?
+      this.state.items.length : 0
 
     this.setState(state)
     this.updateHost(this.state)
@@ -36,7 +40,7 @@ export default class OverlayComponent extends Component {
   onToggle (toggle) {
     let { open } = this.state || toggle
     this.updateState({ open: !open })
-    console.log("togglin' handlin' endin'", open)
+    // console.log("togglin' handlin' endin'", open)
     return this.state.open
   }
 
@@ -59,8 +63,19 @@ export default class OverlayComponent extends Component {
   onChange (event) {
     let value = this.editor.getModel().getText()
     this.updateState({ value })
-    return this.updateHandler &&
-           this.updateHandler({value, event})
+    return this.updateHandler && this.updateHandler({value, event})
+  }
+
+  onMeta (hash, attrs={}) {
+    let index = this.state.items.findIndex(o => o.timestamp === hash)
+    if (index > -1) {
+      let { items } = this.state
+      let item = this.state.items[index]
+      item.meta = { ...item.meta, ...attrs }
+      items.splice(index, 1, item)
+      this.updateState({ items: [...items] })
+    }
+    return this.updateHandler && this.updateHandler({value, event})
   }
 
   onRestore (hash) {
@@ -75,15 +90,20 @@ export default class OverlayComponent extends Component {
   onSubmit (event) {
     let { items } = this.state
     let value = this.editor.getModel().getText()
+    let timestamp = Date.now()
+
+    let meta = {
+      priority: 0,
+      archived: false }
+
     let item  = {
-      timestamp: Date.now(),
+      timestamp,
       value,
-      meta: { priority: 0, }}
+      meta }
 
     this.editor.getModel().setText('')
-    this.updateState({ value: '', items: [...items, item] })
-    return this.submitHandler &&
-           this.submitHandler({value, event})
+    this.updateState({ value: '', items: [ item, ...items] })
+    return this.submitHandler && this.submitHandler({value, event})
   }
 
   onDelete (hash) {
@@ -95,20 +115,18 @@ export default class OverlayComponent extends Component {
   render() {
 
     let { open, items, count } = this.state
-    let item = o => <Note
-                      key={o.timestamp}
-                      edit={this.onRestore}
-                      remove={this.onDelete}
-                      {...o} />
+    let item = o =>
+      <Note
+        key={o.timestamp}
+        edit={this.onRestore}
+        remove={this.onDelete}
+        updateMeta={this.onMeta}
+        {...o}
+      />
 
-    // TODO: Change to ES6 import syntax
-    const pack = atom.packages.getLoadedPackage('quicknote')
-    if (!pack)
-      return null
-    const {path} = pack
-    const localPath = 'resources/trinitynote-vector.svg'
-    const iconPath = (path) ? resolve(`${path}/${localPath}`) : ''
-
+    if (!pack) return null
+    const { path } = pack
+    const iconPath = path ? resolve(`${path}/resources/trinitynote-vector.svg`) : ''
     return (
       <div className={open ? 'open' : 'closed'}>
 

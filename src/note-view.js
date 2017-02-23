@@ -1,50 +1,26 @@
 'use babel'
+import React from 'react'
 import Overlay from './note-overlay-view'
-
-
-
-
-
-
-
-
-
-
+import OverlayComponent from './components/Overlay'
+import { render } from 'react-dom'
 
 
 export default class OverlayView {
 
-  constructor(
-
-                /* LOL ZONE */
-
-
-                   statœ,
-                   state={}){
-    this.state   = state
-    this.visible = state.visible || false
-    this.root    = statœ
-           this.getState =
-           this.getState.bind(this)
-
-    this.update  = this.update.bind(this)
-    this.element = new Overlay(this, this.state.items)
+  constructor(state={}, updater=()=>null) {
+    this.state    = state
+    this.update   = updater
+    this.visible  = state.visible || false
+    this.getState = this.getState.bind(this)
+    this.element  = this.getElement() // new Overlay(this, this.state.items || [])
   }
-
-
 
   attach (statusBar) {
     let args = {
       item: this.element,
-      priority: 5,}
+      priority: 5,
+    }
     this.toggler = statusBar.addRightTile(args)
-  }
-
-  update (state) {
-    this.state = {...this.state, ...state}
-    localStorage.setItem('quicknotes', JSON.stringify(this.state))
-    console.log ("UPDATED TO", localStorage.getItem('quicknotes'))
-    return this.state
   }
 
   getState () {
@@ -59,21 +35,28 @@ export default class OverlayView {
     this.visible = this.getComponent().onToggle()
   }
 
-  // serialize() {
-  //   return this.getState()
-  // }
-
   destroy() {
     this.element.remove()
   }
 
   getComponent () {
-    let { reference } = this.element
+    let { reference } = this
     return reference || this.getElement().querySelector('note-overlay')
   }
 
   getElement() {
-    return this.element
-  }
+    this.element = this.element || document.querySelector('note-overlay') || document.createElement('note-overlay')
+    this.element.setAttribute('class', 'inline-block')
+    if (!this.reference)
+      render(
+        <OverlayComponent
+        ref={ref => this.reference = this.reference || ref}
+        manager={this.update}
+        open={this.state.open || false}
+        items={this.state.items || []}
+        />,
+        this.element)
+      return this.element
+    }
 
-}
+  }

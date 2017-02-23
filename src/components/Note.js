@@ -8,11 +8,21 @@ export default class Note extends Component {
 
   constructor(props) {
     super(props)
+    this.meta = props.meta || {}
     this.state = {
       toggled: true,
-      archived: false,
+      archived: this.meta.archived || false,
+      priority: this.meta.priority || 0,
     }
-    this.archive = () => this.setState({archived: true})
+    this.archive = this.archive.bind(this)
+  }
+
+  archive (unarchive=false) {
+    let update = { archived: !unarchive }
+    let { timestamp } = this.props
+    this.setState(update)
+    this.meta = { ...this.meta, ...update }
+    this.props.updateMeta(timestamp, this.meta)
   }
 
   render () {
@@ -21,7 +31,7 @@ export default class Note extends Component {
     if (archived)
       className = 'list-item archived'
       //onClick={e => remove(timestamp)}
-    let { meta, value, timestamp, remove } = this.props
+    let { value, timestamp, remove } = this.props
     let date = new Date(timestamp)
     return (
       <li className={className}>
