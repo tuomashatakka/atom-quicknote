@@ -1,7 +1,7 @@
 {
   "name": "quicknote",
   "main": "./src/index.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "tuomashatakka",
   "description": "To add, write an entry. To remove. click on an entry. No catches. Plain functionality.",
   "keywords": [
