@@ -45,6 +45,8 @@ export default class OverlayComponent extends Component {
   }
 
   componentDidMount () {
+    if (!this.editor)
+      return null
     this.editor
         .getModel()
         .onDidStopChanging(this.onChange)
